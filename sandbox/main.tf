@@ -36,5 +36,5 @@ resource "kubernetes_namespace" "app" {
     }
   }
 
-  depends_on = [aws_eks_access_entry.runner]
+  depends_on = [aws_eks_access_policy_association.runner]
 }
