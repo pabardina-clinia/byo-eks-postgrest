@@ -1,7 +1,9 @@
 terraform_version = "1.14.3"
 
-[local_repo]
-directory = "./sandbox"
+[public_repo]
+directory = "."
+repo      = "pabardina-clinia/byo-eks-postgrest"
+branch    = "main"
 
 [vars]
 cluster_name             = "{{.nuon.inputs.inputs.cluster_name}}"
