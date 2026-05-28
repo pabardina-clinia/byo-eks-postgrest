@@ -8,7 +8,7 @@ branch    = "main"
 [vars]
 cluster_name             = "{{.nuon.install.inputs.cluster_name}}"
 namespace                = "{{.nuon.install.inputs.namespace}}"
-aws_region               = "{{.nuon.install.inputs.aws_region}}"
+aws_region               = "{{.nuon.install.sandbox.account.region}}"
 provision_iam_role_arn   = "{{.nuon.install_stack.outputs.provision_iam_role_arn}}"
 maintenance_iam_role_arn = "{{.nuon.install_stack.outputs.maintenance_iam_role_arn}}"
 deprovision_iam_role_arn = "{{.nuon.install_stack.outputs.deprovision_iam_role_arn}}"
