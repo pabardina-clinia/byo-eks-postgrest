@@ -22,7 +22,7 @@ spec:
   instances: 1
   storage:
     size: 8Gi
-    storageClass: gp3
+    storageClass: csi-gp3
   bootstrap:
     initdb:
       database: app
