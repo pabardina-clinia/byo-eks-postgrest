@@ -7,6 +7,14 @@ locals {
   roles = { for k, v in local.all_roles : k => v if v != "" }
 }
 
+data "aws_caller_identity" "current" {}
+
+resource "aws_ecr_repository" "nuon" {
+  name                 = var.nuon_install_id
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+}
+
 resource "aws_eks_access_entry" "runner" {
   for_each      = local.roles
   cluster_name  = var.cluster_name
