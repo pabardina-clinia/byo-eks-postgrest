@@ -26,7 +26,7 @@ resource "aws_eks_access_policy_association" "runner" {
   for_each      = local.roles
   cluster_name  = var.cluster_name
   principal_arn = each.value
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 
   access_scope {
     type       = "namespace"
