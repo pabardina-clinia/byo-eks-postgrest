@@ -28,13 +28,12 @@ resource "aws_eks_access_policy_association" "runner" {
   depends_on = [aws_eks_access_entry.runner]
 }
 
-resource "kubernetes_namespace" "app" {
-  metadata {
-    name = var.namespace
-    labels = {
-      "install.nuon.co/id" = var.nuon_install_id
-    }
-  }
-
-  depends_on = [aws_eks_access_policy_association.runner]
-}
+# resource "kubernetes_namespace" "app" {
+#   metadata {
+#     name = var.namespace
+#     labels = {
+#       "install.nuon.co/id" = var.nuon_install_id
+#     }
+#   }
+#   depends_on = [aws_eks_access_policy_association.runner]
+# }
