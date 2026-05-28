@@ -1,0 +1,3 @@
+version      = "v2"
+display_name = "PostgREST + CNPG on BYO EKS"
+description  = "Installs CNPG cluster and PostgREST onto an existing EKS cluster. Supports CNPG-managed Postgres or an existing RDS instance."

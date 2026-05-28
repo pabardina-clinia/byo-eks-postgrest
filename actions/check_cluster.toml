@@ -1,0 +1,32 @@
+name    = "check_cluster"
+timeout = "2m"
+
+[[triggers]]
+type = "manual"
+
+[[steps]]
+name            = "cluster-status-and-logs"
+inline_contents = """#!/bin/bash
+set -e
+
+NS="{{.nuon.install.inputs.namespace}}"
+
+echo "=== PVCs: $NS ==="
+kubectl get pvc -n "$NS"
+
+echo ""
+echo "=== PODS: $NS ==="
+kubectl get pods -n "$NS"
+
+echo ""
+echo "=== CNPG CLUSTER STATUS ==="
+kubectl get cluster -n "$NS" 2>/dev/null || echo "No CNPG cluster found (db_type may be rds)"
+
+echo ""
+echo "=== INITDB POD DESCRIBE ==="
+kubectl describe pod -n "$NS" -l cnpg.io/jobRole=initdb 2>/dev/null || echo "No initdb pod found"
+
+echo ""
+echo "=== CNPG CLUSTER LOGS ==="
+kubectl logs -n "$NS" -l cnpg.io/cluster=cluster --tail=50 2>/dev/null || echo "No CNPG cluster pods found"
+"""

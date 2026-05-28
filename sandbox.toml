@@ -1,0 +1,12 @@
+terraform_version = "1.14.3"
+
+[local_repo]
+directory = "./sandbox"
+
+[vars]
+cluster_name             = "{{.nuon.inputs.inputs.cluster_name}}"
+namespace                = "{{.nuon.inputs.inputs.namespace}}"
+provision_iam_role_arn   = "{{.nuon.install_stack.outputs.provision_iam_role_arn}}"
+maintenance_iam_role_arn = "{{.nuon.install_stack.outputs.maintenance_iam_role_arn}}"
+deprovision_iam_role_arn = "{{.nuon.install_stack.outputs.deprovision_iam_role_arn}}"
+nuon_install_id          = "{{.nuon.install.id}}"

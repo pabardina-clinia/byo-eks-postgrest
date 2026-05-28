@@ -1,0 +1,24 @@
+name    = "check_postgrest"
+timeout = "2m"
+
+[[triggers]]
+type = "manual"
+
+[[steps]]
+name            = "postgrest-status"
+inline_contents = """#!/bin/bash
+set -e
+
+NS="{{.nuon.install.inputs.namespace}}"
+
+echo "=== POSTGREST DEPLOYMENT ==="
+kubectl get deployment postgrest -n "$NS"
+
+echo ""
+echo "=== POSTGREST PODS ==="
+kubectl get pods -n "$NS" -l app=postgrest
+
+echo ""
+echo "=== POSTGREST LOGS ==="
+kubectl logs -n "$NS" -l app=postgrest --tail=50
+"""

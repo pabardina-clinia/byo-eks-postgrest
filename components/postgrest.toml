@@ -1,0 +1,57 @@
+type      = "kubernetes_manifest"
+name      = "postgrest"
+namespace = "{{.nuon.install.inputs.namespace}}"
+
+dependencies = ["cnpg_cluster"]
+
+manifest = """
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgrest
+  namespace: {{.nuon.install.inputs.namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgrest
+  template:
+    metadata:
+      labels:
+        app: postgrest
+    spec:
+      containers:
+        - name: postgrest
+          image: postgrest/postgrest:v12.2.3
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PGRST_DB_URI
+              {{- if eq .nuon.install.inputs.db_type "cnpg"}}
+              valueFrom:
+                secretKeyRef:
+                  name: cluster-app
+                  key: uri
+              {{- else}}
+              value: "{{.nuon.install.inputs.rds_uri}}"
+              {{- end}}
+            - name: PGRST_DB_SCHEMAS
+              value: "api"
+            - name: PGRST_DB_ANON_ROLE
+              value: "app"
+            - name: PGRST_SERVER_PORT
+              value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgrest
+  namespace: {{.nuon.install.inputs.namespace}}
+spec:
+  selector:
+    app: postgrest
+  ports:
+    - port: 3000
+      targetPort: 3000
+"""

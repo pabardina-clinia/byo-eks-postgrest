@@ -1,0 +1,42 @@
+[[group]]
+name         = "eks"
+description  = "EKS Cluster Configuration"
+display_name = "EKS Cluster"
+
+[[input]]
+name         = "cluster_name"
+display_name = "Cluster Name"
+description  = "Name of the existing EKS cluster to deploy into."
+required     = true
+default      = ""
+group        = "eks"
+
+[[input]]
+name         = "namespace"
+display_name = "Namespace"
+description  = "Kubernetes namespace where PostgREST and CNPG cluster will be installed."
+required     = true
+default      = "postgrest"
+group        = "eks"
+
+[[group]]
+name         = "database"
+description  = "Database Backend"
+display_name = "Database"
+
+[[input]]
+name         = "db_type"
+display_name = "Database Type"
+description  = "Database backend: 'cnpg' to deploy a CloudNative PG cluster, or 'rds' to connect to an existing RDS instance."
+required     = true
+default      = "cnpg"
+type         = "string"
+group        = "database"
+
+[[input]]
+name         = "rds_uri"
+display_name = "RDS Connection URI"
+description  = "PostgreSQL connection URI for an existing RDS instance. Required when db_type is 'rds'. Format: postgres://user:pass@host:5432/db"
+required     = false
+default      = ""
+group        = "database"

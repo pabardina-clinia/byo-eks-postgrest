@@ -1,0 +1,7 @@
+type         = "provision"
+name         = "{{.nuon.install.id}}-provision"
+description  = "provision the sandbox and components"
+display_name = "provision role"
+
+[[policies]]
+managed_policy_name = "AdministratorAccess"
