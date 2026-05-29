@@ -2,7 +2,7 @@ type      = "kubernetes_manifest"
 name      = "postgrest"
 namespace = "{{.nuon.install.inputs.namespace}}"
 
-dependencies = ["cnpg_cluster"]
+dependencies = ["cnpg_cluster", "gateway"]
 
 manifest = """
 ---
