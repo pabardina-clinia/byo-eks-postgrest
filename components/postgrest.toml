@@ -68,7 +68,7 @@ spec:
   parentRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: ${cluster}-gateway
+    name: {{.nuon.install.inputs.cluster_name}}-gateway
     namespace: envoy-system
   listeners:
     - name: {{.nuon.install.inputs.namespace}}
