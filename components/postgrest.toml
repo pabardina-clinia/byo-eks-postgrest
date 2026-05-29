@@ -74,7 +74,7 @@ spec:
     - name: {{.nuon.install.inputs.namespace}}
       protocol: HTTPS
       port: 443
-      hostname: {{.nuon.install.inputs.namespace}}.${domain}
+      hostname: {{.nuon.install.inputs.namespace}}.dev.clinia.cloud
       tls:
         mode: Terminate
         certificateRefs:
