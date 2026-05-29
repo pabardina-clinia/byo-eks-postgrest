@@ -56,6 +56,50 @@ spec:
       targetPort: 3000
 ---
 apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: {{.nuon.install.inputs.namespace}}
+  namespace: {{.nuon.install.inputs.namespace}}
+  labels:
+    app: {{.nuon.install.inputs.namespace}}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-dns01only
+spec:
+  parentRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: ${cluster}-gateway
+    namespace: envoy-system
+  listeners:
+    - name: {{.nuon.install.inputs.namespace}}
+      protocol: HTTPS
+      port: 443
+      hostname: {{.nuon.install.inputs.namespace}}.${domain}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: {{.nuon.install.inputs.namespace}}-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: {{.nuon.install.inputs.namespace}}-gw-secret
+  namespace: {{.nuon.install.inputs.namespace}}
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      namespace: envoy-system
+  to:
+    - group: ""
+      kind: Secret
+---
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: postgrest
@@ -69,6 +113,10 @@ spec:
       group: gateway.networking.k8s.io
       kind: Gateway
       sectionName: https-cloud
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: {{.nuon.install.inputs.namespace}}
+      namespace: {{.nuon.install.inputs.namespace}}
   rules:
     - matches:
         - path:
